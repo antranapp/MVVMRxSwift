@@ -13,6 +13,8 @@ class ImageListViewModel: ViewModel {
     var searchTerm = BehaviorRelay<String>(value: "")
     var imageList = BehaviorRelay<ImageList>(value: ImageList(total: 0, totalHits: 0, hits: []))
 
+    let activity = PublishRelay<Bool>()
+
     private let disposeBag = DisposeBag()
 
     // MARK: APIs
@@ -28,12 +30,15 @@ class ImageListViewModel: ViewModel {
     }
 
     func fetchImage(searchTerm: String) {
+        activity.accept(true)
         pixelBayService.fetch(searchTerm: searchTerm)
             .done { [weak self] imageList in
                 self?.imageList.accept(imageList)
             }
             .catch { error in
                 print(error)
+            }.finally {
+                self.activity.accept(false)
             }
     }
 }

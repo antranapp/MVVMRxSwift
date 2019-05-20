@@ -11,8 +11,14 @@ class ImageListViewController: ViewController {
 
     // MARK: Properties
 
+    // Public
+
     @IBOutlet weak var searchTermTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
+
+    // Private
+
+    private var activityIndicator: UIActivityIndicatorView!
 
     let disposeBag = DisposeBag()
 
@@ -28,14 +34,29 @@ class ImageListViewController: ViewController {
         tableView.dataSource = self
         tableView.delegate = self
 
+        activityIndicator = UIActivityIndicatorView(style: .gray)
+        let rightButton = UIBarButtonItem(customView: activityIndicator)
+        navigationItem.rightBarButtonItem = rightButton
+
+        // UI Binding
         searchTermTextField.rx.text
             .orEmpty
             .bind(to: viewModel.searchTerm)
             .disposed(by: disposeBag)
 
+        // Observe Property
         viewModel.imageList.subscribe(
             onNext: { imageList in
                 self.tableView.reloadData()
+            }
+        ).disposed(by: disposeBag)
+
+        // Observe Signal
+        viewModel.activity.subscribe(
+            onNext: { value in
+                DispatchQueue.main.async {
+                    value ? self.activityIndicator.startAnimating() : self.activityIndicator.stopAnimating()
+                }
             }
         ).disposed(by: disposeBag)
 

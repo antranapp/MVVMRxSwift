@@ -258,10 +258,10 @@
 		F63C0F61227AEE380076E5D9 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				F63C0F68227AEE6A0076E5D9 /* ImageListTableViewCell.swift */,
-				F63C0F6A227AEE6A0076E5D9 /* ImageListTableViewCell.xib */,
 				F63C0F6B227AEE6A0076E5D9 /* ImageListViewController.swift */,
 				F63C0F69227AEE6A0076E5D9 /* ImageListViewController.xib */,
+				F63C0F68227AEE6A0076E5D9 /* ImageListTableViewCell.swift */,
+				F63C0F6A227AEE6A0076E5D9 /* ImageListTableViewCell.xib */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
